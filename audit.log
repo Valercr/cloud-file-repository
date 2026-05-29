@@ -1,0 +1,10 @@
+{"timestamp":"2026-05-29T03:18:38.447Z","event":"UPLOAD","fileId":"0b5eea85-39de-422a-a8fc-794bcdd7fd72","ownerClientId":"test-client","originalName":"test.txt","size":27}
+{"timestamp":"2026-05-29T03:18:38.509Z","event":"LINK_GENERATED","fileId":"0b5eea85-39de-422a-a8fc-794bcdd7fd72","clientId":"test-client","jti":"e5ff7463-acba-41b2-9095-90fea6e97dce"}
+{"timestamp":"2026-05-29T03:18:38.521Z","event":"DOWNLOAD","fileId":"0b5eea85-39de-422a-a8fc-794bcdd7fd72","jti":"e5ff7463-acba-41b2-9095-90fea6e97dce"}
+{"timestamp":"2026-05-29T03:18:38.559Z","event":"DELETE","fileId":"0b5eea85-39de-422a-a8fc-794bcdd7fd72","clientId":"test-client"}
+{"timestamp":"2026-05-29T03:31:32.432Z","event":"UPLOAD","fileId":"d3953883-f0f4-42bd-b9b7-74f4e1967f07","ownerClientId":"app1","originalName":"Trabajo Final.docx","size":3311753}
+{"timestamp":"2026-05-29T03:33:30.111Z","event":"LINK_GENERATED","fileId":"d3953883-f0f4-42bd-b9b7-74f4e1967f07","clientId":"app1","jti":"f89046e2-ac90-4fa2-a19e-2f0a76429a0c"}
+{"timestamp":"2026-05-29T03:34:47.558Z","event":"DOWNLOAD","fileId":"d3953883-f0f4-42bd-b9b7-74f4e1967f07","jti":"f89046e2-ac90-4fa2-a19e-2f0a76429a0c"}
+{"timestamp":"2026-05-29T03:35:17.835Z","event":"UPLOAD","fileId":"69423224-2523-4c2f-a73e-5275095a7f97","ownerClientId":"app1","originalName":"Trabajo Final.docx","size":3311753}
+{"timestamp":"2026-05-29T03:35:32.619Z","event":"LINK_GENERATED","fileId":"69423224-2523-4c2f-a73e-5275095a7f97","clientId":"app1","jti":"a4d83f87-1ef4-4d71-9b9f-3f1fdfcc1531"}
+{"timestamp":"2026-05-29T03:35:35.012Z","event":"DOWNLOAD","fileId":"69423224-2523-4c2f-a73e-5275095a7f97","jti":"a4d83f87-1ef4-4d71-9b9f-3f1fdfcc1531"}

@@ -1,0 +1,26 @@
+{
+  "d3953883-f0f4-42bd-b9b7-74f4e1967f07": {
+    "fileId": "d3953883-f0f4-42bd-b9b7-74f4e1967f07",
+    "ownerClientId": "app1",
+    "originalName": "Trabajo Final.docx",
+    "storedName": "d3953883-f0f4-42bd-b9b7-74f4e1967f07-Trabajo Final.docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "size": 3311753,
+    "createdAt": "2026-05-29T03:31:32.334Z",
+    "permissions": [
+      "app1"
+    ]
+  },
+  "69423224-2523-4c2f-a73e-5275095a7f97": {
+    "fileId": "69423224-2523-4c2f-a73e-5275095a7f97",
+    "ownerClientId": "app1",
+    "originalName": "Trabajo Final.docx",
+    "storedName": "69423224-2523-4c2f-a73e-5275095a7f97-Trabajo Final.docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "size": 3311753,
+    "createdAt": "2026-05-29T03:35:17.830Z",
+    "permissions": [
+      "app1"
+    ]
+  }
+}

@@ -1,73 +1,163 @@
+/**
+ * fileController.js
+ * Thin HTTP layer — validates input, delegates to fileService, and formats responses.
+ * Each handler stays well under 20 lines of logic.
+ */
+
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
 const path = require('path');
 
-const storage = multer.diskStorage({
-    destination: 'src/storage/',
+const fileService = require('../services/fileService');
+
+// ---------------------------------------------------------------------------
+// Multer configuration — storage, file type validation, and size limit
+// ---------------------------------------------------------------------------
+
+/** Allowed MIME types for uploaded files */
+const ALLOWED_MIME_TYPES = new Set([
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'image/jpeg',
+    'image/png',
+    'text/plain',
+]);
+
+/** Maximum upload size: 10 MB */
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+const diskStorage = multer.diskStorage({
+    destination: path.join(__dirname, '../storage'),
     filename: (req, file, cb) => {
         const fileId = uuidv4();
+        // Attach the id to the file object so the controller can read it after upload
         file.fileId = fileId;
-        cb(null, fileId + '-' + file.originalname);
-    }
+        cb(null, `${fileId}-${file.originalname}`);
+    },
 });
 
-const upload = multer({ storage });
-
-function uploadFile(req, res) {
-    const fileId = req.file.fileId;
-
-    console.log(`UPLOAD: Client ${req.client.clientId} uploaded file ${fileId}`);
-
-    res.json({ fileId });
-}
-
-function generateLink(req, res) {
-    try {
-        const { fileId } = req.body;
-
-        if (!fileId) {
-            return res.status(400).json({ message: 'fileId is required' });
+/**
+ * Multer middleware with file type and size restrictions.
+ * Rejects files that are not in the allowed MIME type list.
+ */
+const upload = multer({
+    storage: diskStorage,
+    limits: { fileSize: MAX_FILE_SIZE },
+    fileFilter: (req, file, cb) => {
+        if (ALLOWED_MIME_TYPES.has(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error(`File type not allowed: ${file.mimetype}`));
         }
+    },
+});
 
-        console.log(`LINK: Client ${req.client.clientId} generated link for ${fileId}`);
+// ---------------------------------------------------------------------------
+// Route handlers
+// ---------------------------------------------------------------------------
 
-        const token = jwt.sign({ fileId },process.env.DOWNLOAD_SECRET,{ expiresIn: '5m' });
-
-        const link = `http://localhost:3000/files/download?token=${token}`;
-
-        res.json({ link });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+/**
+ * POST /files/upload
+ * Requires: authenticate + authorize('uploader')
+ */
+function uploadFile(req, res) {
+    try {
+        const fileId = fileService.registerUpload(
+            req.file.fileId,
+            req.client.clientId,
+            req.file
+        );
+        res.status(201).json({ fileId });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
     }
 }
 
+/**
+ * POST /files/link
+ * Body: { fileId }
+ * Requires: authenticate + authorize('uploader')
+ */
+function generateLink(req, res) {
+    const { fileId } = req.body;
+
+    if (!fileId) {
+        return res.status(400).json({ message: 'fileId is required' });
+    }
+
+    try {
+        const link = fileService.generateDownloadLink(fileId, req.client.clientId);
+        res.json({ link });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
+    }
+}
+
+/**
+ * GET /files/download?token=...
+ * Public endpoint — the token itself is the access control mechanism.
+ * Each token is valid for one use only.
+ */
 function downloadFile(req, res) {
     const { token } = req.query;
 
+    if (!token) {
+        return res.status(400).send('token is required');
+    }
+
     try {
-        const decoded = jwt.verify(token, process.env.DOWNLOAD_SECRET);
-        const fileId = decoded.fileId;
-
-        console.log(`DOWNLOAD: File ${fileId} accessed`);
-
-        const files = fs.readdirSync('src/storage');
-        const file = files.find(f => f.startsWith(fileId));
-
-        if (!file) {
-            return res.status(404).send('File not found');
-        }
-
-        const filePath = path.join(__dirname, '../storage', file);
+        const { filePath } = fileService.resolveDownload(token);
         res.download(filePath);
-
     } catch (err) {
-        console.log('FAILED DOWNLOAD ATTEMPT');
-        return res.status(403).send('Invalid or expired link');
+        res.status(err.status || 500).send(err.message || 'Internal server error');
     }
 }
 
-module.exports = {upload,uploadFile, generateLink, downloadFile};
+/**
+ * DELETE /files/:fileId
+ * Requires: authenticate
+ * Only the file owner can delete their file.
+ */
+function deleteFile(req, res) {
+    const { fileId } = req.params;
+
+    try {
+        fileService.removeFile(fileId, req.client.clientId);
+        res.json({ message: 'File deleted successfully' });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
+    }
+}
+
+/**
+ * GET /files
+ * Requires: authenticate
+ * Returns all files owned by the requesting client.
+ */
+function listFiles(req, res) {
+    try {
+        const files = fileService.listFiles(req.client.clientId);
+        res.json({ files });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
+    }
+}
+
+/**
+ * GET /files/:fileId/metadata
+ * Requires: authenticate
+ * Returns metadata for a specific file (owner only).
+ */
+function getFileMetadata(req, res) {
+    const { fileId } = req.params;
+
+    try {
+        const metadata = fileService.getMetadata(fileId, req.client.clientId);
+        res.json({ metadata });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
+    }
+}
+
+module.exports = { upload, uploadFile, generateLink, downloadFile, deleteFile, listFiles, getFileMetadata };
