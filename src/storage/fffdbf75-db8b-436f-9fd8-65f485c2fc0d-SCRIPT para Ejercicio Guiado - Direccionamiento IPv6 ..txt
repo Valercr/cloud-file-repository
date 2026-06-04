@@ -1,0 +1,26 @@
+SCRIPT para Ejercicio en CLASE.
+
+ENRUTAMIENTO.
+
+
+------R10-------
+
+ipv6 router ospf 1
+router-id 10.10.10.10
+interface G0/0
+ipv6 ospf 1 area 0
+interface G0/1
+ipv6 ospf 1 area 0
+interface G0/2
+ipv6 ospf 1 area 0
+
+------R1-------
+
+ipv6 router ospf 1
+router-id 1.1.1.1
+interface G0/0
+ipv6 ospf 1 area 0
+interface G0/1
+ipv6 ospf 1 area 0
+interface G0/2
+ipv6 ospf 1 area 0

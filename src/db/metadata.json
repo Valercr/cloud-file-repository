@@ -1,0 +1,66 @@
+{
+  "d3953883-f0f4-42bd-b9b7-74f4e1967f07": {
+    "fileId": "d3953883-f0f4-42bd-b9b7-74f4e1967f07",
+    "ownerClientId": "app1",
+    "originalName": "Trabajo Final.docx",
+    "storedName": "d3953883-f0f4-42bd-b9b7-74f4e1967f07-Trabajo Final.docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "size": 3311753,
+    "createdAt": "2026-05-29T03:31:32.334Z",
+    "permissions": [
+      "app1"
+    ]
+  },
+  "69423224-2523-4c2f-a73e-5275095a7f97": {
+    "fileId": "69423224-2523-4c2f-a73e-5275095a7f97",
+    "ownerClientId": "app1",
+    "originalName": "Trabajo Final.docx",
+    "storedName": "69423224-2523-4c2f-a73e-5275095a7f97-Trabajo Final.docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "size": 3311753,
+    "createdAt": "2026-05-29T03:35:17.830Z",
+    "permissions": [
+      "app1"
+    ]
+  },
+  "35074fdf-e8f8-4c59-b88e-26d3ad49458d": {
+    "fileId": "35074fdf-e8f8-4c59-b88e-26d3ad49458d",
+    "originalName": "Ejercicio Guiado - Direccionamiento IPv6.docx",
+    "storedName": "35074fdf-e8f8-4c59-b88e-26d3ad49458d-Ejercicio Guiado - Direccionamiento IPv6.docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "size": 47735,
+    "createdAt": "2026-06-04T08:22:27.637Z"
+  },
+  "5e7c87a3-c419-4d87-8ab8-97effabeadba": {
+    "fileId": "5e7c87a3-c419-4d87-8ab8-97effabeadba",
+    "originalName": "Ejercicio Guiado - Direccionamiento IPv6.docx",
+    "storedName": "5e7c87a3-c419-4d87-8ab8-97effabeadba-Ejercicio Guiado - Direccionamiento IPv6.docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "size": 47735,
+    "createdAt": "2026-06-04T08:24:27.011Z"
+  },
+  "0964107e-84f1-4332-a4da-dde837cfed15": {
+    "fileId": "0964107e-84f1-4332-a4da-dde837cfed15",
+    "originalName": "SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt",
+    "storedName": "0964107e-84f1-4332-a4da-dde837cfed15-SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt",
+    "mimeType": "text/plain",
+    "size": 391,
+    "createdAt": "2026-06-04T14:25:22.185Z"
+  },
+  "548632c9-a536-4782-bfa3-0a8e95ad97c4": {
+    "fileId": "548632c9-a536-4782-bfa3-0a8e95ad97c4",
+    "originalName": "SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt",
+    "storedName": "548632c9-a536-4782-bfa3-0a8e95ad97c4-SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt",
+    "mimeType": "text/plain",
+    "size": 391,
+    "createdAt": "2026-06-04T14:27:17.892Z"
+  },
+  "fffdbf75-db8b-436f-9fd8-65f485c2fc0d": {
+    "fileId": "fffdbf75-db8b-436f-9fd8-65f485c2fc0d",
+    "originalName": "SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt",
+    "storedName": "fffdbf75-db8b-436f-9fd8-65f485c2fc0d-SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt",
+    "mimeType": "text/plain",
+    "size": 391,
+    "createdAt": "2026-06-04T14:27:18.724Z"
+  }
+}

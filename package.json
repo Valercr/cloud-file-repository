@@ -1,9 +1,10 @@
 {
   "name": "cloud-file-repository",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Servicio de almacenamiento de archivos. Expone POST /files y GET /files/:fileId para consumidores externos (ej: Spring Boot).",
+  "main": "src/app.js",
   "scripts": {
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

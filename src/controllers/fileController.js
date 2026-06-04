@@ -1,73 +1,117 @@
+/**
+ * fileController.js
+ * Capa HTTP — valida la entrada, delega al servicio y formatea las respuestas.
+ *
+ * Endpoints:
+ *   POST /files          → uploadFile
+ *   GET  /files/:fileId  → getDownloadUrl
+ */
+
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
 const path = require('path');
 
-const storage = multer.diskStorage({
-    destination: 'src/storage/',
+const fileService = require('../services/fileService');
+
+// ---------------------------------------------------------------------------
+// Configuración de Multer — almacenamiento en disco, validación y límite de tamaño
+// ---------------------------------------------------------------------------
+
+/** MIME types permitidos para subida */
+const ALLOWED_MIME_TYPES = new Set([
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'image/jpeg',
+    'image/png',
+    'text/plain',
+]);
+
+/** Tamaño máximo: 10 MB */
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+const diskStorage = multer.diskStorage({
+    destination: path.join(__dirname, '../storage'),
     filename: (req, file, cb) => {
+        // El nombre en disco incluye el UUID para evitar colisiones
         const fileId = uuidv4();
-        file.fileId = fileId;
-        cb(null, fileId + '-' + file.originalname);
-    }
+        file.fileId = fileId; // lo adjuntamos al objeto para leerlo después
+        cb(null, `${fileId}-${file.originalname}`);
+    },
 });
 
-const upload = multer({ storage });
-
-function uploadFile(req, res) {
-    const fileId = req.file.fileId;
-
-    console.log(`UPLOAD: Client ${req.client.clientId} uploaded file ${fileId}`);
-
-    res.json({ fileId });
-}
-
-function generateLink(req, res) {
-    try {
-        const { fileId } = req.body;
-
-        if (!fileId) {
-            return res.status(400).json({ message: 'fileId is required' });
+/**
+ * Middleware de Multer con validación de tipo y tamaño.
+ * Rechaza archivos cuyo MIME type no esté en la lista permitida.
+ */
+const upload = multer({
+    storage: diskStorage,
+    limits: { fileSize: MAX_FILE_SIZE },
+    fileFilter: (req, file, cb) => {
+        if (ALLOWED_MIME_TYPES.has(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error(`Tipo de archivo no permitido: ${file.mimetype}`));
         }
+    },
+});
 
-        console.log(`LINK: Client ${req.client.clientId} generated link for ${fileId}`);
+// ---------------------------------------------------------------------------
+// Handlers de rutas
+// ---------------------------------------------------------------------------
 
-        const token = jwt.sign({ fileId },process.env.DOWNLOAD_SECRET,{ expiresIn: '5m' });
+/**
+ * POST /files
+ * Recibe un archivo via multipart/form-data (campo: "file").
+ * Responde 201 con { fileId } si todo va bien.
+ */
+function uploadFile(req, res) {
+    if (!req.file) {
+        return res.status(400).json({ message: 'El campo "file" es requerido' });
+    }
 
-        const link = `http://localhost:3000/files/download?token=${token}`;
-
-        res.json({ link });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+    try {
+        const fileId = fileService.registerUpload(req.file.fileId, req.file);
+        res.status(201).json({ fileId });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
     }
 }
 
-function downloadFile(req, res) {
+/**
+ * GET /files/:fileId
+ * Retorna la URL de descarga del archivo.
+ * Responde 200 con { downloadUrl }.
+ */
+function getDownloadUrl(req, res) {
+    const { fileId } = req.params;
+
+    try {
+        const downloadUrl = fileService.generateDownloadUrl(fileId);
+        res.json({ downloadUrl });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
+    }
+}
+
+/**
+ * GET /files/download?token=...
+ * Endpoint público que sirve el archivo binario.
+ * El token es firmado, de un solo uso y expira en 5 minutos.
+ */
+function serveFile(req, res) {
     const { token } = req.query;
 
+    if (!token) {
+        return res.status(400).json({ message: 'El parámetro "token" es requerido' });
+    }
+
     try {
-        const decoded = jwt.verify(token, process.env.DOWNLOAD_SECRET);
-        const fileId = decoded.fileId;
-
-        console.log(`DOWNLOAD: File ${fileId} accessed`);
-
-        const files = fs.readdirSync('src/storage');
-        const file = files.find(f => f.startsWith(fileId));
-
-        if (!file) {
-            return res.status(404).send('File not found');
-        }
-
-        const filePath = path.join(__dirname, '../storage', file);
+        const { filePath } = fileService.resolveDownload(token);
         res.download(filePath);
-
     } catch (err) {
-        console.log('FAILED DOWNLOAD ATTEMPT');
-        return res.status(403).send('Invalid or expired link');
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
     }
 }
 
-module.exports = {upload,uploadFile, generateLink, downloadFile};
+module.exports = { upload, uploadFile, getDownloadUrl, serveFile };
