@@ -1,8 +1,12 @@
 /**
  * metadataStore.js
- * Lightweight JSON-based metadata persistence layer.
- * Tracks file ownership, permissions, and audit history.
- * Can be swapped for a real DB (MongoDB, PostgreSQL) without changing the service layer.
+ * Capa de persistencia de metadatos basada en JSON.
+ *
+ * Guarda información sobre cada archivo subido (sin propietario, ya que este
+ * servicio no maneja autenticación de usuarios).
+ *
+ * Para producción, puede reemplazarse por MongoDB, PostgreSQL, etc.
+ * sin necesidad de cambiar el servicio.
  */
 
 const fs = require('fs');
@@ -11,8 +15,8 @@ const path = require('path');
 const DB_PATH = path.join(__dirname, 'metadata.json');
 
 /**
- * Load the full metadata store from disk.
- * @returns {Object} Map of fileId -> metadata record
+ * Carga el store completo desde disco.
+ * @returns {Object} Mapa de fileId → registro de metadatos
  */
 function loadStore() {
     if (!fs.existsSync(DB_PATH)) {
@@ -23,7 +27,7 @@ function loadStore() {
 }
 
 /**
- * Persist the metadata store to disk.
+ * Persiste el store en disco.
  * @param {Object} store
  */
 function saveStore(store) {
@@ -31,62 +35,38 @@ function saveStore(store) {
 }
 
 /**
- * Save metadata for a newly uploaded file.
- * @param {string} fileId - UUID of the file
- * @param {string} ownerClientId - clientId of the uploader
- * @param {string} originalName - original filename
- * @param {string} storedName - filename as stored on disk
- * @param {string} mimeType - MIME type of the file
- * @param {number} size - file size in bytes
+ * Guarda los metadatos de un archivo recién subido.
+ *
+ * @param {string} fileId       - UUID del archivo
+ * @param {string} originalName - Nombre original del archivo
+ * @param {string} storedName   - Nombre en disco: "<uuid>-<originalName>"
+ * @param {string} mimeType     - MIME type del archivo
+ * @param {number} size         - Tamaño en bytes
  */
-function saveFileMetadata(fileId, ownerClientId, originalName, storedName, mimeType, size) {
+function saveFileMetadata(fileId, originalName, storedName, mimeType, size) {
     const store = loadStore();
     store[fileId] = {
         fileId,
-        ownerClientId,
         originalName,
         storedName,
         mimeType,
         size,
         createdAt: new Date().toISOString(),
-        permissions: [ownerClientId],
     };
     saveStore(store);
 }
 
 /**
- * Retrieve metadata for a specific file.
+ * Retorna los metadatos de un archivo específico.
  * @param {string} fileId
- * @returns {Object|null} metadata record or null if not found
+ * @returns {Object|null} Registro de metadatos, o null si no existe
  */
 function getFileMetadata(fileId) {
     const store = loadStore();
     return store[fileId] || null;
 }
 
-/**
- * Delete metadata for a specific file.
- * @param {string} fileId
- */
-function deleteFileMetadata(fileId) {
-    const store = loadStore();
-    delete store[fileId];
-    saveStore(store);
-}
-
-/**
- * List all files owned by a specific client.
- * @param {string} clientId
- * @returns {Array} list of metadata records
- */
-function listFilesByClient(clientId) {
-    const store = loadStore();
-    return Object.values(store).filter(f => f.ownerClientId === clientId);
-}
-
 module.exports = {
     saveFileMetadata,
     getFileMetadata,
-    deleteFileMetadata,
-    listFilesByClient,
 };

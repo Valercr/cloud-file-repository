@@ -1,7 +1,12 @@
 /**
  * app.js
- * Express application entry point.
- * Configures middleware, mounts routes, and starts the HTTP server.
+ * Punto de entrada de la aplicación Express.
+ *
+ * Este servicio actúa como repositorio de archivos para clientes externos
+ * (ej: una aplicación Spring Boot). Expone dos endpoints principales:
+ *
+ *   POST /files          → recibe un archivo y lo almacena
+ *   GET  /files/:fileId  → retorna la URL de descarga de un archivo
  */
 
 require('dotenv').config();
@@ -13,10 +18,10 @@ const app = express();
 
 app.use(express.json());
 
-// Mount file routes
+// Montar rutas de archivos
 app.use('/files', fileRoutes);
 
-// Global error handler — catches any unhandled errors from route handlers
+// Manejador global de errores — captura cualquier error no manejado en los handlers
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     console.error('[ERROR]', err.message);
     res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
@@ -25,5 +30,5 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

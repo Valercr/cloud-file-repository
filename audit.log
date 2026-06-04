@@ -8,3 +8,12 @@
 {"timestamp":"2026-05-29T03:35:17.835Z","event":"UPLOAD","fileId":"69423224-2523-4c2f-a73e-5275095a7f97","ownerClientId":"app1","originalName":"Trabajo Final.docx","size":3311753}
 {"timestamp":"2026-05-29T03:35:32.619Z","event":"LINK_GENERATED","fileId":"69423224-2523-4c2f-a73e-5275095a7f97","clientId":"app1","jti":"a4d83f87-1ef4-4d71-9b9f-3f1fdfcc1531"}
 {"timestamp":"2026-05-29T03:35:35.012Z","event":"DOWNLOAD","fileId":"69423224-2523-4c2f-a73e-5275095a7f97","jti":"a4d83f87-1ef4-4d71-9b9f-3f1fdfcc1531"}
+{"timestamp":"2026-06-04T08:22:27.638Z","event":"UPLOAD","fileId":"35074fdf-e8f8-4c59-b88e-26d3ad49458d","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-04T08:24:27.011Z","event":"UPLOAD","fileId":"5e7c87a3-c419-4d87-8ab8-97effabeadba","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-04T08:50:19.819Z","event":"URL_GENERATED","fileId":"5e7c87a3-c419-4d87-8ab8-97effabeadba","jti":"414b0227-892f-49c9-9459-696fabd361fa"}
+{"timestamp":"2026-06-04T08:50:20.772Z","event":"URL_GENERATED","fileId":"5e7c87a3-c419-4d87-8ab8-97effabeadba","jti":"fb170559-c6b3-45ac-be2a-536cf3c6ea29"}
+{"timestamp":"2026-06-04T08:50:38.557Z","event":"DOWNLOAD","fileId":"5e7c87a3-c419-4d87-8ab8-97effabeadba","jti":"fb170559-c6b3-45ac-be2a-536cf3c6ea29"}
+{"timestamp":"2026-06-04T14:16:03.979Z","event":"URL_GENERATED","fileId":"5e7c87a3-c419-4d87-8ab8-97effabeadba","jti":"0908524f-5ff6-4319-a984-fd722b07d17a"}
+{"timestamp":"2026-06-04T14:25:22.187Z","event":"UPLOAD","fileId":"0964107e-84f1-4332-a4da-dde837cfed15","originalName":"SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt","size":391}
+{"timestamp":"2026-06-04T14:27:17.904Z","event":"UPLOAD","fileId":"548632c9-a536-4782-bfa3-0a8e95ad97c4","originalName":"SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt","size":391}
+{"timestamp":"2026-06-04T14:27:18.725Z","event":"UPLOAD","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","originalName":"SCRIPT para Ejercicio Guiado - Direccionamiento IPv6 ..txt","size":391}

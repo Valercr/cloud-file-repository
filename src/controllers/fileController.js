@@ -1,7 +1,10 @@
 /**
  * fileController.js
- * Thin HTTP layer — validates input, delegates to fileService, and formats responses.
- * Each handler stays well under 20 lines of logic.
+ * Capa HTTP — valida la entrada, delega al servicio y formatea las respuestas.
+ *
+ * Endpoints:
+ *   POST /files          → uploadFile
+ *   GET  /files/:fileId  → getDownloadUrl
  */
 
 const multer = require('multer');
@@ -11,10 +14,10 @@ const path = require('path');
 const fileService = require('../services/fileService');
 
 // ---------------------------------------------------------------------------
-// Multer configuration — storage, file type validation, and size limit
+// Configuración de Multer — almacenamiento en disco, validación y límite de tamaño
 // ---------------------------------------------------------------------------
 
-/** Allowed MIME types for uploaded files */
+/** MIME types permitidos para subida */
 const ALLOWED_MIME_TYPES = new Set([
     'application/pdf',
     'application/msword',
@@ -24,22 +27,22 @@ const ALLOWED_MIME_TYPES = new Set([
     'text/plain',
 ]);
 
-/** Maximum upload size: 10 MB */
+/** Tamaño máximo: 10 MB */
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 const diskStorage = multer.diskStorage({
     destination: path.join(__dirname, '../storage'),
     filename: (req, file, cb) => {
+        // El nombre en disco incluye el UUID para evitar colisiones
         const fileId = uuidv4();
-        // Attach the id to the file object so the controller can read it after upload
-        file.fileId = fileId;
+        file.fileId = fileId; // lo adjuntamos al objeto para leerlo después
         cb(null, `${fileId}-${file.originalname}`);
     },
 });
 
 /**
- * Multer middleware with file type and size restrictions.
- * Rejects files that are not in the allowed MIME type list.
+ * Middleware de Multer con validación de tipo y tamaño.
+ * Rechaza archivos cuyo MIME type no esté en la lista permitida.
  */
 const upload = multer({
     storage: diskStorage,
@@ -48,26 +51,27 @@ const upload = multer({
         if (ALLOWED_MIME_TYPES.has(file.mimetype)) {
             cb(null, true);
         } else {
-            cb(new Error(`File type not allowed: ${file.mimetype}`));
+            cb(new Error(`Tipo de archivo no permitido: ${file.mimetype}`));
         }
     },
 });
 
 // ---------------------------------------------------------------------------
-// Route handlers
+// Handlers de rutas
 // ---------------------------------------------------------------------------
 
 /**
- * POST /files/upload
- * Requires: authenticate + authorize('uploader')
+ * POST /files
+ * Recibe un archivo via multipart/form-data (campo: "file").
+ * Responde 201 con { fileId } si todo va bien.
  */
 function uploadFile(req, res) {
+    if (!req.file) {
+        return res.status(400).json({ message: 'El campo "file" es requerido' });
+    }
+
     try {
-        const fileId = fileService.registerUpload(
-            req.file.fileId,
-            req.client.clientId,
-            req.file
-        );
+        const fileId = fileService.registerUpload(req.file.fileId, req.file);
         res.status(201).json({ fileId });
     } catch (err) {
         res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
@@ -75,20 +79,16 @@ function uploadFile(req, res) {
 }
 
 /**
- * POST /files/link
- * Body: { fileId }
- * Requires: authenticate + authorize('uploader')
+ * GET /files/:fileId
+ * Retorna la URL de descarga del archivo.
+ * Responde 200 con { downloadUrl }.
  */
-function generateLink(req, res) {
-    const { fileId } = req.body;
-
-    if (!fileId) {
-        return res.status(400).json({ message: 'fileId is required' });
-    }
+function getDownloadUrl(req, res) {
+    const { fileId } = req.params;
 
     try {
-        const link = fileService.generateDownloadLink(fileId, req.client.clientId);
-        res.json({ link });
+        const downloadUrl = fileService.generateDownloadUrl(fileId);
+        res.json({ downloadUrl });
     } catch (err) {
         res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
     }
@@ -96,68 +96,22 @@ function generateLink(req, res) {
 
 /**
  * GET /files/download?token=...
- * Public endpoint — the token itself is the access control mechanism.
- * Each token is valid for one use only.
+ * Endpoint público que sirve el archivo binario.
+ * El token es firmado, de un solo uso y expira en 5 minutos.
  */
-function downloadFile(req, res) {
+function serveFile(req, res) {
     const { token } = req.query;
 
     if (!token) {
-        return res.status(400).send('token is required');
+        return res.status(400).json({ message: 'El parámetro "token" es requerido' });
     }
 
     try {
         const { filePath } = fileService.resolveDownload(token);
         res.download(filePath);
     } catch (err) {
-        res.status(err.status || 500).send(err.message || 'Internal server error');
-    }
-}
-
-/**
- * DELETE /files/:fileId
- * Requires: authenticate
- * Only the file owner can delete their file.
- */
-function deleteFile(req, res) {
-    const { fileId } = req.params;
-
-    try {
-        fileService.removeFile(fileId, req.client.clientId);
-        res.json({ message: 'File deleted successfully' });
-    } catch (err) {
         res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
     }
 }
 
-/**
- * GET /files
- * Requires: authenticate
- * Returns all files owned by the requesting client.
- */
-function listFiles(req, res) {
-    try {
-        const files = fileService.listFiles(req.client.clientId);
-        res.json({ files });
-    } catch (err) {
-        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
-    }
-}
-
-/**
- * GET /files/:fileId/metadata
- * Requires: authenticate
- * Returns metadata for a specific file (owner only).
- */
-function getFileMetadata(req, res) {
-    const { fileId } = req.params;
-
-    try {
-        const metadata = fileService.getMetadata(fileId, req.client.clientId);
-        res.json({ metadata });
-    } catch (err) {
-        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
-    }
-}
-
-module.exports = { upload, uploadFile, generateLink, downloadFile, deleteFile, listFiles, getFileMetadata };
+module.exports = { upload, uploadFile, getDownloadUrl, serveFile };
