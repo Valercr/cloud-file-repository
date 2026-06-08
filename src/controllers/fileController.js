@@ -3,8 +3,10 @@
  * Capa HTTP — valida la entrada, delega al servicio y formatea las respuestas.
  *
  * Endpoints:
- *   POST /files          → uploadFile
- *   GET  /files/:fileId  → getDownloadUrl
+ *   POST /files/upload-url  → getUploadUrl    (genera URL pre-firmada de subida)
+ *   POST /files/upload      → receiveUpload   (recibe el archivo con token pre-firmado)
+ *   GET  /files/:fileId     → getDownloadUrl  (retorna URL de descarga)
+ *   GET  /files/download    → serveFile       (sirve el binario)
  */
 
 const multer = require('multer');
@@ -61,11 +63,39 @@ const upload = multer({
 // ---------------------------------------------------------------------------
 
 /**
- * POST /files
- * Recibe un archivo via multipart/form-data (campo: "file").
- * Responde 201 con { fileId } si todo va bien.
+ * POST /files/upload-url
+ * Genera y retorna una URL pre-firmada para que el cliente suba un archivo
+ * directamente a este servicio, sin pasar por FastAPI.
+ * Responde 200 con { uploadUrl }.
  */
-function uploadFile(req, res) {
+function getUploadUrl(req, res) {
+    try {
+        const uploadUrl = fileService.generateUploadUrl();
+        res.json({ uploadUrl });
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
+    }
+}
+
+/**
+ * POST /files/upload?token=...
+ * Recibe el archivo usando la URL pre-firmada.
+ * Valida el token (uso único, 10 min) y registra el archivo.
+ * Responde 201 con { fileId }.
+ */
+function receiveUpload(req, res) {
+    const { token } = req.query;
+
+    if (!token) {
+        return res.status(400).json({ message: 'El parámetro "token" es requerido' });
+    }
+
+    try {
+        fileService.validateUploadToken(token);
+    } catch (err) {
+        return res.status(err.status || 403).json({ message: err.message });
+    }
+
     if (!req.file) {
         return res.status(400).json({ message: 'El campo "file" es requerido' });
     }
@@ -114,4 +144,4 @@ function serveFile(req, res) {
     }
 }
 
-module.exports = { upload, uploadFile, getDownloadUrl, serveFile };
+module.exports = { upload, getUploadUrl, receiveUpload, getDownloadUrl, serveFile };

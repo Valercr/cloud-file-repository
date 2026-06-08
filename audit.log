@@ -1,0 +1,52 @@
+{"timestamp":"2026-06-04T14:51:40.429Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"73f08a0c-1828-4a6d-997a-f990c6ee96d9"}
+{"timestamp":"2026-06-04T14:51:42.773Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"efd8aa23-f2f2-4a8b-a9d6-5537d0233222"}
+{"timestamp":"2026-06-05T02:40:12.576Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"2f6a78f5-69d6-4bb0-8b4d-23099034b981"}
+{"timestamp":"2026-06-05T02:40:14.540Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"f5cc4687-ad4b-4a0b-a0d4-d63ae87ae4d0"}
+{"timestamp":"2026-06-05T02:40:54.466Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"bc075828-f533-4a59-b0b6-3f29b3b6267a"}
+{"timestamp":"2026-06-05T02:43:42.010Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"46842fbb-dba2-441e-9742-28bfb015f2d5"}
+{"timestamp":"2026-06-05T02:43:44.687Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"17698260-fa04-40a8-a398-e363cd7e2e94"}
+{"timestamp":"2026-06-05T02:46:42.986Z","event":"UPLOAD","fileId":"2af34712-7d14-446d-ae0c-8d1e62d0910d","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-05T02:47:53.197Z","event":"UPLOAD","fileId":"a8fc55fe-f734-4f99-a19d-210accf98205","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-05T02:48:03.534Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"358716d1-8ab3-44cd-84e0-22e6f98b1380"}
+{"timestamp":"2026-06-05T02:48:08.509Z","event":"URL_GENERATED","fileId":"fffdbf75-db8b-436f-9fd8-65f485c2fc0d","jti":"71160f8f-13e6-4f6e-91f1-160787eb12a1"}
+{"timestamp":"2026-06-05T02:55:43.452Z","event":"UPLOAD","fileId":"a5bd3ada-d95e-47b7-8e9c-9a731b00cc06","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-05T02:56:30.925Z","event":"URL_GENERATED","fileId":"a5bd3ada-d95e-47b7-8e9c-9a731b00cc06","jti":"0973f653-506e-4251-8ae3-fee0f51bda5e"}
+{"timestamp":"2026-06-05T02:58:44.312Z","event":"DOWNLOAD","fileId":"a5bd3ada-d95e-47b7-8e9c-9a731b00cc06","jti":"0973f653-506e-4251-8ae3-fee0f51bda5e"}
+{"timestamp":"2026-06-05T03:23:47.869Z","event":"UPLOAD","fileId":"ca4b2107-8307-4a09-ad1a-b181f4ae1513","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-05T03:26:39.695Z","event":"URL_GENERATED","fileId":"ca4b2107-8307-4a09-ad1a-b181f4ae1513","jti":"e2df9bed-f3a9-4eaa-801e-67d312ceaeac"}
+{"timestamp":"2026-06-05T03:26:43.235Z","event":"DOWNLOAD","fileId":"ca4b2107-8307-4a09-ad1a-b181f4ae1513","jti":"e2df9bed-f3a9-4eaa-801e-67d312ceaeac"}
+{"timestamp":"2026-06-08T09:05:56.367Z","event":"UPLOAD","fileId":"0b3713bc-ec8b-4db9-90e7-a5193343b3e5","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-08T09:06:30.848Z","event":"URL_GENERATED","fileId":"0b3713bc-ec8b-4db9-90e7-a5193343b3e5","jti":"c19938d1-7d1a-4cbe-becf-3a5983af5258"}
+{"timestamp":"2026-06-08T10:16:07.318Z","event":"UPLOAD","fileId":"8569749b-8884-48d3-8762-9fa10f4f5474","originalName":"Ejercicio Guiado - Direccionamiento IPv6.docx","size":47735}
+{"timestamp":"2026-06-08T10:20:46.299Z","event":"UPLOAD_URL_GENERATED","jti":"4141a50f-ff27-418d-933c-6674da610bc1"}
+{"timestamp":"2026-06-08T10:21:29.327Z","event":"UPLOAD_URL_GENERATED","jti":"44899b2e-c4c1-485c-9aca-8583d164930c"}
+{"timestamp":"2026-06-08T10:21:30.948Z","event":"UPLOAD_URL_GENERATED","jti":"78be1c32-ab54-4835-97e9-f0fd2ed019bc"}
+{"timestamp":"2026-06-08T10:22:00.012Z","event":"UPLOAD_URL_GENERATED","jti":"0fa138a8-7f40-4b35-8665-34014246f2a2"}
+{"timestamp":"2026-06-08T10:23:12.050Z","event":"UPLOAD_URL_GENERATED","jti":"c0046b46-2e10-4e3e-bfe1-9e55221a0477"}
+{"timestamp":"2026-06-08T10:25:36.945Z","event":"UPLOAD_URL_GENERATED","jti":"a8b76fd4-c830-4167-b5f2-359c5fb08d71"}
+{"timestamp":"2026-06-08T10:27:02.913Z","event":"UPLOAD_URL_GENERATED","jti":"b1232760-8561-40db-a092-adbf32047050"}
+{"timestamp":"2026-06-08T10:27:10.010Z","event":"UPLOAD_URL_GENERATED","jti":"76de4645-542d-42fb-9186-ba06760f0021"}
+{"timestamp":"2026-06-08T10:29:41.706Z","event":"UPLOAD_URL_GENERATED","jti":"a2638039-1e06-44d8-97e6-f93dcd86b969"}
+{"timestamp":"2026-06-08T10:29:44.058Z","event":"UPLOAD_URL_GENERATED","jti":"2781b4c2-6e11-4a07-bfb0-612787c669e4"}
+{"timestamp":"2026-06-08T10:30:11.505Z","event":"UPLOAD_URL_GENERATED","jti":"8431f82c-7d88-4fb9-bfb7-9085f917e970"}
+{"timestamp":"2026-06-08T10:31:53.934Z","event":"UPLOAD_URL_GENERATED","jti":"38fa227e-0e36-4b6d-9f2b-6a0003d5c387"}
+{"timestamp":"2026-06-08T10:32:18.059Z","event":"UPLOAD","fileId":"64127a68-c9e6-4761-b76d-3164456c6393","originalName":"Examen aÃ±o pasado.docx","size":143375}
+{"timestamp":"2026-06-08T10:32:52.217Z","event":"URL_GENERATED","fileId":"64127a68-c9e6-4761-b76d-3164456c6393","jti":"95623255-cfb9-4c07-8297-3d390b229423"}
+{"timestamp":"2026-06-08T10:33:05.713Z","event":"DOWNLOAD","fileId":"64127a68-c9e6-4761-b76d-3164456c6393","jti":"95623255-cfb9-4c07-8297-3d390b229423"}
+{"timestamp":"2026-06-08T17:14:20.152Z","event":"UPLOAD_URL_GENERATED","jti":"9e169bb2-edab-4346-92cc-75b0e67b3546"}
+{"timestamp":"2026-06-08T17:14:30.713Z","event":"UPLOAD_URL_GENERATED","jti":"77d0ea9a-74de-4a6f-ad43-529cb070c996"}
+{"timestamp":"2026-06-08T17:14:45.378Z","event":"UPLOAD_URL_GENERATED","jti":"9027a221-d823-4f89-b6f9-7a5b3a15c4d8"}
+{"timestamp":"2026-06-08T17:14:55.737Z","event":"UPLOAD_URL_GENERATED","jti":"0302806f-24a9-4212-931e-e7fb9e8ef6c8"}
+{"timestamp":"2026-06-08T17:15:02.386Z","event":"UPLOAD_URL_GENERATED","jti":"86af12be-48de-4747-b7aa-fe3e23b567db"}
+{"timestamp":"2026-06-08T17:15:15.953Z","event":"URL_GENERATED","fileId":"64127a68-c9e6-4761-b76d-3164456c6393","jti":"38b3b806-f242-461b-acba-421bc26b6542"}
+{"timestamp":"2026-06-08T17:15:35.386Z","event":"UPLOAD_URL_GENERATED","jti":"f26da413-4b0a-4d57-a217-3b36a7080fac"}
+{"timestamp":"2026-06-08T17:16:32.296Z","event":"UPLOAD_URL_GENERATED","jti":"071b1adc-7dc4-4afc-a8fe-ee45639c2af8"}
+{"timestamp":"2026-06-08T17:18:29.552Z","event":"UPLOAD_URL_GENERATED","jti":"57a1113c-0af1-45ef-8048-1aa3c03ab6f1"}
+{"timestamp":"2026-06-08T17:19:07.061Z","event":"UPLOAD_URL_GENERATED","jti":"9beea00f-e2ba-4023-8bbb-0044d3b8ebdd"}
+{"timestamp":"2026-06-08T17:19:54.769Z","event":"UPLOAD_URL_GENERATED","jti":"57a1ae1f-5f26-4d4f-bde9-3706496883a0"}
+{"timestamp":"2026-06-08T17:19:58.960Z","event":"UPLOAD_URL_GENERATED","jti":"71bf2a8c-f6c2-493f-893f-d87840fb01de"}
+{"timestamp":"2026-06-08T17:20:20.978Z","event":"UPLOAD","fileId":"c60aebab-f02e-44f9-98ed-4b4ff3245f0b","originalName":"Lab 3.pdf","size":67571}
+{"timestamp":"2026-06-08T17:20:51.603Z","event":"UPLOAD_URL_GENERATED","jti":"f84b8a35-8d00-41e9-8410-72edd07e0720"}
+{"timestamp":"2026-06-08T17:21:01.965Z","event":"UPLOAD","fileId":"c48862e3-e3c5-4399-b365-ad19bfe1d3ce","originalName":"Lab 3.pdf","size":67571}
+{"timestamp":"2026-06-08T17:21:29.420Z","event":"URL_GENERATED","fileId":"c48862e3-e3c5-4399-b365-ad19bfe1d3ce","jti":"15c0c57e-43af-404e-b41c-a9614a5d4624"}
+{"timestamp":"2026-06-08T17:21:55.955Z","event":"DOWNLOAD","fileId":"c48862e3-e3c5-4399-b365-ad19bfe1d3ce","jti":"15c0c57e-43af-404e-b41c-a9614a5d4624"}

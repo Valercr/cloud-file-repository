@@ -3,9 +3,10 @@
  * Lógica de negocio para operaciones de archivos.
  *
  * Responsabilidades:
- *   1. Registrar un archivo subido en el store de metadatos.
- *   2. Generar una URL de descarga firmada (JWT de un solo uso, válida 5 minutos).
- *   3. Resolver la descarga real a partir del token firmado.
+ *   1. Generar una URL pre-firmada de SUBIDA (el cliente sube directo, sin pasar por FastAPI).
+ *   2. Recibir y registrar el archivo cuando el cliente lo sube usando la URL pre-firmada.
+ *   3. Generar una URL de descarga firmada (JWT de un solo uso, válida 5 minutos).
+ *   4. Resolver la descarga real a partir del token firmado.
  */
 
 const fs = require('fs');
@@ -19,6 +20,61 @@ const { audit } = require('../utils/auditLogger');
 
 const STORAGE_DIR = path.join(__dirname, '../storage');
 const DOWNLOAD_SECRET = process.env.DOWNLOAD_SECRET;
+const UPLOAD_SECRET = process.env.UPLOAD_SECRET || process.env.DOWNLOAD_SECRET;
+
+/**
+ * Genera una URL pre-firmada de SUBIDA.
+ * El cliente usará esta URL para subir el archivo directamente al servicio,
+ * sin que el archivo pase por FastAPI.
+ *
+ * El token lleva un jti único para uso único y expira en 10 minutos.
+ *
+ * @returns {string} URL completa de subida pre-firmada
+ */
+function generateUploadUrl() {
+    const jti = uuidv4();
+    const token = jwt.sign({ action: 'upload', jti }, UPLOAD_SECRET, { expiresIn: '10m' });
+    const uploadUrl = `http://localhost:${process.env.PORT || 3000}/files/upload?token=${token}`;
+
+    audit('UPLOAD_URL_GENERATED', { jti });
+
+    return uploadUrl;
+}
+
+/**
+ * Valida el token de subida y retorna el jti para uso único.
+ * @param {string} token
+ * @returns {{ jti: string }}
+ * @throws {Error} 403 si el token es inválido, expirado o ya fue usado
+ */
+function validateUploadToken(token) {
+    let decoded;
+
+    try {
+        decoded = jwt.verify(token, UPLOAD_SECRET);
+    } catch {
+        const err = new Error('Token de subida inválido o expirado');
+        err.status = 403;
+        throw err;
+    }
+
+    if (decoded.action !== 'upload') {
+        const err = new Error('Token de subida inválido');
+        err.status = 403;
+        throw err;
+    }
+
+    const { jti } = decoded;
+
+    if (isTokenUsed(jti)) {
+        const err = new Error('Este enlace de subida ya fue utilizado');
+        err.status = 403;
+        throw err;
+    }
+
+    markTokenAsUsed(jti);
+    return { jti };
+}
 
 /**
  * Registra un archivo recién subido en el store de metadatos.
@@ -120,6 +176,8 @@ function resolveDownload(token) {
 }
 
 module.exports = {
+    generateUploadUrl,
+    validateUploadToken,
     registerUpload,
     generateDownloadUrl,
     resolveDownload,
