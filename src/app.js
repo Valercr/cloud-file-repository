@@ -27,8 +27,13 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     res.status(err.status || 500).json({ message: err.message || 'Internal server error' });
 });
 
-const PORT = process.env.PORT || 3000;
+// Exportar la app para pruebas (Supertest la levanta sin puerto fijo)
+module.exports = app;
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+// Solo iniciar el servidor si este archivo es el punto de entrada directo
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en el puerto ${PORT}`);
+    });
+}

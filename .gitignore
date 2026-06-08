@@ -3,3 +3,12 @@ node_modules/
 dist/
 build/
 .DS_Store
+
+# Archivos generados en runtime
+audit.log
+src/storage/*.txt
+src/storage/*.docx
+src/storage/*.pdf
+src/storage/*.jpeg
+src/storage/*.jpg
+src/storage/*.png

@@ -5,7 +5,18 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand --forceExit --verbose",
+    "test:coverage": "jest --runInBand --forceExit --coverage"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"],
+    "collectCoverageFrom": [
+      "src/services/**/*.js",
+      "src/utils/**/*.js",
+      "src/db/**/*.js"
+    ],
+    "coverageReporters": ["text"]
   },
   "keywords": [],
   "author": "",
@@ -15,6 +26,10 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.1.1",
-    "uuid": "^14.0.0"
+    "uuid": "^11.1.1"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
   }
 }
